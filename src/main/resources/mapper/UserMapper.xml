@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.houtai.mapper.UserMapper">
+    <select id="findByUsername" resultType="com.example.houtai.domain.User">
+        SELECT username, password, name ,gender,phone,email FROM user WHERE username = #{username}
+    </select>
+    <insert id="insert" parameterType="com.example.houtai.domain.User">
+        INSERT INTO user (username, password, name ,gender,phone,email) VALUES (#{username}, #{password},#{name}, #{gender},#{phone}, #{email})
+    </insert>
+    <update id="edit" parameterType="com.example.houtai.domain.User">
+        update user set
+        <if test="password!=null">
+            password=#{password},
+        </if>
+
+        <if test="name!=null">
+            name=#{name},
+        </if>
+
+        <if test="gender!=null">
+            gender=#{gender},
+        </if>
+
+        <if test="phone!=null">
+            phone=#{phone},
+        </if>
+
+        <if test="email!=null">
+            email=#{email}
+        </if>
+        where username=#{username}
+    </update>
+    <update id="changePassword" parameterType="com.example.houtai.domain.User">
+        UPDATE user SET password=#{newPassword} WHERE username=#{username} AND password=#{oldPassword}
+    </update>
+</mapper>
